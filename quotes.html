@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quote Fetcher</title>
+    <link rel="stylesheet" href="quotes.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="quotes.js" defer></script>
+  </head>
+  <body>
+    <div id="quote-container">
+      <div class="quote">
+        <div id="quote-text">Most things are better with cute animals.</div>
+        <div id="quote-author">-Michael Meidenbauer</div>
+        <div id="instructions">Click dog for new quote.</div>
+      </div>
+    </div>
+    <!-- <div class="get-quote">
+      <button id="quote-btn">Get Quote</button>
+    </div> -->
+    <div class="quote-list-container">
+      <div class="quote-list-menu">
+          <div id="sort-menu">
+              <div><p>Search by author</p> <input id="searchBox"></input> <button id="search">Search</button></div>
+              <div><p>Sort <button id="ascending">A-Z</button> | <button id="descending">Z-A</button></p></div>
+          </div>
+      </div>
+      <div id="quote-list"></div>
+      <div class="page-selector">
+        <button id="previous-page">Previous Page</button>
+        <p id="current-page"></p>
+        <button id="next-page">Next Page</button>
+      </div>
+    </div>
+  </body>
+</html>
