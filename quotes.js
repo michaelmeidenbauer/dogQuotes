@@ -1,3 +1,4 @@
+import jquery from 'jquery';
 let randomQuotes = [];
 let currentList = [];
 let currentPage = 0;

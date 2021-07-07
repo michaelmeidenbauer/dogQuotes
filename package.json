@@ -1,0 +1,22 @@
+{
+  "name": "dogquotes",
+  "version": "1.0.0",
+  "description": "quotes with dogs",
+  "main": "quotes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaelmeidenbauer/dogQuotes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michaelmeidenbauer/dogQuotes/issues"
+  },
+  "homepage": "https://github.com/michaelmeidenbauer/dogQuotes#readme",
+  "dependencies": {
+    "jquery": "^3.6.0"
+  }
+}
