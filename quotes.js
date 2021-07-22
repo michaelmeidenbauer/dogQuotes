@@ -1,9 +1,19 @@
+// I'd like to see some new lines between functions and sections. You'll see linebreaks throughout as my suggested additions.
+
+// since this is one mega file of functions, you could add some comments to group functions
+
+// you could add jsdoc docstrings to functions for a little more clarity
+
+// More on logical grouping, I would prefix functions that are UI handler callbacks with "handler":
+// getRandomQuote -> handleGetRandomQuote, getRandomDogImgSrc -> handleGetRandomDogImgSrc, etc
+
 let randomQuotes = [];
 let currentList = [];
 let currentPage = 0;
 let quoteText = $("#quote-text");
 let quoteAuthor = $("#quote-author");
 const quoteBtn = $("#quote-btn");
+
 async function fetchData(API) {
   if (!localStorage.quotesList) {
     try {
@@ -12,22 +22,29 @@ async function fetchData(API) {
       localStorage.setItem('quotesList', JSON.stringify(data));
       return data;
     } catch (error) {
+      // error handling in UI:
+      // $('body').text = "There was an error setting local storage."
+      // or just an alert: alert("message")
       console.error(error);
     }
   } else {
       return JSON.parse(localStorage.getItem('quotesList'));
   }
 }
+
 async function fetchAndCleanUpData() {
+    // you could try/catch here, but I'll show how you could do it at where you call this function
     const data = await fetchData("https://type.fit/api/quotes");
     randomQuotes = overWriteNullAuthors(data);
     availableQuotes = [...randomQuotes];
     currentList = [...randomQuotes];
     populateQuoteList(currentList);
 }
+
 const populateQuoteList = (quoteList) => {
   $(".single-quote").remove();
   const paginatedList = paginateList(quoteList);
+
   for (quote of paginatedList[0]) {
     const { text, author } = quote;
     $("#quote-list").append(`
@@ -42,6 +59,7 @@ const populateQuoteList = (quoteList) => {
     `Page ${currentPage + 1} of ${paginateList(currentList).length}`
   );
 };
+
 const paginateList = (quoteList) => {
   let listCopy = [...quoteList];
   let paginatedList = [];
@@ -50,6 +68,7 @@ const paginateList = (quoteList) => {
   }
   return paginatedList;
 };
+
 const getRandomQuote = () => {
   const randomIndex = Math.floor(Math.random() * availableQuotes.length);
   const splicedQuote = availableQuotes.splice([randomIndex], 1)[0];
@@ -60,6 +79,7 @@ const getRandomQuote = () => {
     availableQuotes = [...randomQuotes];
   }
 };
+
 const overWriteNullAuthors = (quoteList) => {
   for (quote of quoteList) {
     if (quote.author === null) {
@@ -68,6 +88,7 @@ const overWriteNullAuthors = (quoteList) => {
   }
   return quoteList;
 };
+
 const changePage = (direction) => {
   const paginatedList = paginateList(currentList);
   if (direction === "up" && currentPage < paginatedList.length - 1) {
@@ -79,6 +100,7 @@ const changePage = (direction) => {
     populateQuoteList(paginatedList[currentPage]);
   }
 };
+
 const ascending = (a, b) => {
   if (a.author < b.author) {
     return -1;
@@ -88,6 +110,7 @@ const ascending = (a, b) => {
   }
   return 0;
 };
+
 const descending = (a, b) => {
   if (a.author > b.author) {
     return -1;
@@ -97,17 +120,21 @@ const descending = (a, b) => {
   }
   return 0;
 };
+
 const sortAscending = () => {
   currentPage = 0;
   currentList = [...randomQuotes].sort(ascending);
   populateQuoteList(currentList);
 };
+
 const sortDescending = () => {
   currentPage = 0;
   currentList = [...randomQuotes].sort(descending);
   populateQuoteList(currentList);
 };
+
 const searchList = (searchTerm) => {
+  // use const instead of let if you don't re-assign
   let listCopy = [...randomQuotes];
   let results = listCopy.filter((quote) =>
     quote.author.toUpperCase().includes(searchTerm.toUpperCase())
@@ -121,6 +148,7 @@ const searchList = (searchTerm) => {
   }
   populateQuoteList(currentList);
 };
+
 const getRandomDogImgSrc = () => {
   const randomDogNum = Math.floor(Math.random() * 1000);
   $("#quote-container").css(
@@ -128,6 +156,7 @@ const getRandomDogImgSrc = () => {
     `url(https://placedog.net/950/640/${randomDogNum})`
   );
 };
+
 $("#quote-container").click(getRandomQuote);
 $("#quote-container").click(getRandomDogImgSrc);
 $("#next-page").click(function () {
@@ -147,4 +176,10 @@ $("#searchBox").keypress(function (event) {
     searchList($("#searchBox").val());
   }
 });
-fetchAndCleanUpData();
+
+// try/catch and error handling:
+try {
+  fetchAndCleanUpData();
+} catch (error) {
+  $('body').text = "An error occurred while fetching quotes."
+}
